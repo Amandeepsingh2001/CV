@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amandeep Singh — ArchViz Artist</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#F7F4EF;--paper:#EDE9E1;--linen:#D9D2C5;
+  --ink:#1C1B18;--ink-mid:#4A4740;--ink-light:#7C786F;
+  --rule:#C8C0B0;--gold:#8C6D2F;--gold-light:#B89654;
+  --gold-pale:#F0E8D5;--rust:#8B3A2A;--charcoal:#2E2C28;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--cream);color:var(--ink);
+  font-family:'DM Sans',sans-serif;font-weight:400;
+  min-height:100vh;overflow-x:hidden;cursor:none;
+}
+#cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:transform 0.1s}
+#cursor-ring{position:fixed;width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.15s ease;mix-blend-mode:multiply;opacity:0.5}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(180,165,140,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(180,165,140,0.07) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* SIDE RULE */
+.side-rule{position:fixed;left:0;top:0;bottom:0;width:48px;border-right:1px solid var(--rule);z-index:10;background:var(--cream);display:flex;flex-direction:column;align-items:center;padding-top:20px;overflow:hidden}
+.side-rule-text{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-family:'DM Mono',monospace;font-size:9px;color:var(--rule);letter-spacing:3px;text-transform:uppercase;margin-top:auto;margin-bottom:32px}
+.side-notch{width:100%;height:1px;background:var(--rule);margin:12px 0}
+.side-notch.long{width:60%;margin-left:auto}
+.side-notch.short{width:30%;margin-left:auto}
+.side-num{font-family:'DM Mono',monospace;font-size:8px;color:var(--rule);text-align:right;width:100%;padding-right:6px;line-height:1}
+
+/* NAV */
+nav{position:fixed;top:0;left:48px;right:0;height:56px;border-bottom:1px solid var(--rule);background:rgba(247,244,239,0.96);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:0 48px;z-index:50}
+.nav-left{display:flex;align-items:baseline;gap:16px}
+.nav-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;letter-spacing:0.5px;color:var(--ink)}
+.nav-role{font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);letter-spacing:2px;text-transform:uppercase}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a{font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.2s;font-family:'DM Mono',monospace}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse-dot 2s ease-in-out infinite;cursor:default}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
+
+/* MAIN */
+main{position:relative;z-index:2;margin-left:48px;padding-top:56px}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 400px;border-bottom:1px solid var(--rule);position:relative}
+.hero-left{padding:80px 48px 60px;border-right:1px solid var(--rule);display:flex;flex-direction:column;justify-content:center;position:relative}
+.corner-mark{position:absolute;width:14px;height:14px}
+.corner-mark.tl{top:24px;left:24px;border-top:1px solid var(--gold-light);border-left:1px solid var(--gold-light)}
+.corner-mark.br{bottom:24px;right:24px;border-bottom:1px solid var(--gold-light);border-right:1px solid var(--gold-light)}
+.hero-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:32px;display:flex;align-items:center;gap:12px}
+.hero-label::before{content:'';width:28px;height:1px;background:var(--gold)}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(60px,6.5vw,90px);font-weight:400;line-height:0.95;letter-spacing:-1px;color:var(--ink);margin-bottom:32px}
+h1 em{font-style:italic;color:var(--gold);font-weight:400}
+.hero-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-mid);margin-bottom:8px}
+.hero-subtitle{font-size:15px;font-weight:400;color:var(--ink-mid);line-height:1.7;margin-bottom:36px;max-width:480px}
+.hero-meta{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:32px}
+.hero-meta-item{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--ink-mid);display:flex;align-items:center;gap:8px}
+.hero-meta-item a{color:var(--ink-light);text-decoration:none;border-bottom:1px solid var(--rule);transition:all 0.2s}
+.hero-meta-item a:hover{color:var(--gold);border-color:var(--gold)}
+.sep{color:var(--rule)}
+.status-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.stag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border:1px solid}
+.stag.green{color:var(--gold);border-color:var(--gold);background:var(--gold-pale)}
+.stag.line{color:var(--ink-mid);border-color:var(--rule)}
+.port-btns{display:flex;gap:10px;flex-wrap:wrap}
+.port-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:12px 22px;border:1px solid var(--ink);color:var(--ink);text-decoration:none;transition:all 0.25s;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden}
+.port-btn::before{content:'';position:absolute;inset:0;background:var(--ink);transform:translateY(100%);transition:transform 0.25s ease}
+.port-btn span{position:relative;z-index:1}
+.port-btn:hover::before{transform:translateY(0)}
+.port-btn:hover{color:var(--cream)}
+.port-btn.gold{border-color:var(--gold);color:var(--gold)}
+.port-btn.gold::before{background:var(--gold)}
+.port-btn.gold:hover{color:var(--cream)}
+
+/* HERO RIGHT */
+.hero-right{padding:80px 32px 60px;display:flex;flex-direction:column;gap:0}
+.drawing-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--rule);margin-bottom:24px}
+.panel-box{border:1px solid var(--rule);padding:22px;margin-bottom:20px;position:relative}
+.panel-box::before{content:attr(data-label);position:absolute;top:-7px;left:14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--ink-mid);background:var(--cream);padding:0 6px;text-transform:uppercase}
+.profile-text{font-size:14px;line-height:1.8;color:var(--ink-mid);font-weight:400}
+.sb-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.sb-row:last-child{margin-bottom:0}
+.sb-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.3px;color:var(--ink-mid);width:118px;flex-shrink:0}
+.sb-track{flex:1;height:2px;background:var(--linen);position:relative}
+.sb-fill{height:100%;background:var(--gold);width:0;transition:width 1.6s cubic-bezier(0.4,0,0.2,1)}
+.sb-pct{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold-light);width:24px;text-align:right;flex-shrink:0}
+
+/* SECTION */
+.section-wrap{border-bottom:1px solid var(--rule);padding:72px 48px;position:relative}
+.section-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--ink-light);margin-bottom:6px}
+.section-heading{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;letter-spacing:-0.5px;color:var(--ink);margin-bottom:44px;display:flex;align-items:baseline;gap:16px}
+.section-heading em{font-style:italic;color:var(--gold)}
+.section-rule{flex:1;height:1px;background:var(--rule);align-self:center}
+
+/* EXPERIENCE */
+.exp-item{display:grid;grid-template-columns:200px 1fr;gap:32px;padding:36px 0;border-top:1px solid var(--rule);transition:background 0.3s}
+.exp-item:hover{background:rgba(140,109,47,0.025)}
+.exp-period{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--ink-mid);margin-bottom:8px}
+.exp-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border:1px solid var(--gold);color:var(--gold)}
+.exp-company{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500;color:var(--ink);margin-bottom:4px;font-style:italic}
+.exp-role{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.exp-desc{font-size:14px;line-height:1.8;color:var(--ink-mid);font-weight:400;margin-bottom:18px;max-width:560px}
+.exp-tags{display:flex;flex-wrap:wrap;gap:6px}
+.exp-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border:1px solid var(--rule);color:var(--ink-mid);transition:all 0.2s;cursor:default}
+.exp-tag:hover{border-color:var(--gold);color:var(--gold)}
+
+/* SKILLS */
+.skills-container{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.skills-col-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-mid);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--rule)}
+.filter-bar{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--rule)}
+.filter-btn{flex:1;padding:9px 4px;border:none;border-right:1px solid var(--rule);background:transparent;cursor:pointer;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-mid);transition:all 0.2s}
+.filter-btn:last-child{border-right:none}
+.filter-btn:hover,.filter-btn.active{background:var(--ink);color:var(--cream)}
+.skills-cloud{display:flex;flex-wrap:wrap;gap:6px}
+.skill-pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:7px 14px;border:1px solid var(--rule);color:var(--ink-mid);cursor:default;transition:all 0.2s}
+.skill-pill:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-pale)}
+.skill-pill.core{border-color:var(--ink-mid);color:var(--ink);font-weight:500}
+.sw-col-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-mid);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--rule)}
+.sw-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--rule)}
+.sw-badge{padding:15px 20px;border-bottom:1px solid var(--rule);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-mid);cursor:default;transition:all 0.2s;position:relative;overflow:hidden}
+.sw-badge:last-child{border-bottom:none}
+.sw-badge::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform 0.3s}
+.sw-badge:hover::after{transform:scaleY(1)}
+.sw-badge:hover{color:var(--gold);padding-left:24px}
+
+/* AI GRID */
+.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.ai-card{background:var(--cream);padding:28px 24px}
+.ai-card-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-mid);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.ai-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.ai-list li{font-size:14px;color:var(--ink-mid);font-weight:400;display:flex;align-items:center;gap:10px}
+.ai-list li::before{content:'→';font-family:'DM Mono',monospace;color:var(--linen);font-size:10px;flex-shrink:0}
+.tool-pills{display:flex;flex-wrap:wrap;gap:5px}
+.tool-pill{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.5px;padding:6px 12px;border:1px solid var(--rule);color:var(--ink-mid);transition:all 0.2s;cursor:default}
+.tool-pill.hl{border-color:var(--gold);color:var(--gold);background:var(--gold-pale)}
+.tool-pill:hover{border-color:var(--ink);color:var(--ink)}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.proj-card{background:var(--cream);padding:28px 24px;cursor:pointer;transition:background 0.25s;position:relative;overflow:hidden}
+.proj-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform 0.35s ease}
+.proj-card:hover{background:var(--paper)}
+.proj-card:hover::before{transform:scaleY(1)}
+.proj-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--ink-light);margin-bottom:12px}
+.proj-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--ink);margin-bottom:6px;line-height:1.2}
+.proj-tech{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.proj-desc{font-size:14px;color:var(--ink-mid);line-height:1.7;font-weight:400}
+.proj-expand{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.proj-expand.open{max-height:200px}
+.proj-expand-inner{padding-top:14px;margin-top:14px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink-mid);line-height:1.8;font-weight:400}
+.proj-hint{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--rule);margin-top:12px;text-transform:uppercase;transition:color 0.2s}
+.proj-card:hover .proj-hint{color:var(--gold-light)}
+
+/* STRENGTHS */
+.strengths-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.strength-card{background:var(--cream);padding:28px 24px;transition:background 0.2s}
+.strength-card:hover{background:var(--paper)}
+.str-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--ink-light);margin-bottom:14px}
+.str-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:500;color:var(--ink);margin-bottom:8px}
+.str-desc{font-size:13px;color:var(--ink-mid);line-height:1.7;font-weight:400}
+
+/* PORTFOLIO */
+.showcase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.showcase-card{background:var(--cream);padding:28px 24px;text-decoration:none;color:inherit;transition:background 0.25s;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.showcase-card::after{content:'↗';position:absolute;top:20px;right:20px;font-size:16px;color:var(--rule);transition:all 0.2s}
+.showcase-card:hover{background:var(--paper)}
+.showcase-card:hover::after{color:var(--gold);transform:translate(2px,-2px)}
+.showcase-platform{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-mid)}
+.showcase-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--ink);line-height:1.2}
+.showcase-desc{font-size:14px;color:var(--ink-mid);line-height:1.7;font-weight:400;flex:1}
+.showcase-url{font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-light);padding-top:12px;border-top:1px solid var(--rule);word-break:break-all}
+
+/* FOOTER */
+footer{border-top:1px solid var(--rule);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-left{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-mid)}
+.footer-right{display:flex;gap:20px}
+.footer-right a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;transition:color 0.2s}
+.footer-right a:hover{color:var(--gold)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:var(--linen)}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{border-top:1px solid var(--rule)}
+  .side-rule{display:none}
+  main{margin-left:0}
+  nav{left:0;padding:0 20px}
+  .section-wrap{padding:48px 24px}
+  .skills-container,.ai-grid,.projects-grid,.strengths-grid,.showcase-grid{grid-template-columns:1fr}
+  .hero-left{padding:60px 24px 40px}
+  h1{font-size:52px}
+  .exp-item{grid-template-columns:1fr;gap:10px}
+  footer{padding:24px}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<div class="side-rule">
+  <div class="side-num">01</div>
+  <div class="side-notch long"></div><div class="side-notch short"></div><div class="side-notch long"></div><div class="side-notch short"></div>
+  <div class="side-num">02</div>
+  <div class="side-notch long"></div><div class="side-notch short"></div><div class="side-notch long"></div>
+  <div class="side-num">03</div>
+  <div class="side-notch long"></div><div class="side-notch short"></div><div class="side-notch long"></div>
+  <div class="side-num">04</div>
+  <div class="side-notch long"></div><div class="side-notch short"></div><div class="side-notch long"></div>
+  <div class="side-num">05</div>
+  <div class="side-notch long"></div><div class="side-notch long"></div><div class="side-notch short"></div>
+  <div class="side-num">06</div>
+  <div class="side-rule-text">Amandeep Singh · CV · 2025</div>
+</div>
+
+<nav>
+  <div class="nav-left">
+    <div class="nav-name">Amandeep Singh</div>
+    <div class="nav-role">UE5 ArchViz</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+  </ul>
+  <div class="nav-dot" title="Available for Hire"></div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="corner-mark tl"></div>
+    <div class="corner-mark br"></div>
+    <div class="hero-label">UE5 · ArchViz · Delhi, India</div>
+    <h1>Amandeep<br><em>Singh</em></h1>
+    <div class="hero-title">Architectural Visualization Artist &nbsp;·&nbsp; Unreal Engine Artist</div>
+    <div class="hero-subtitle">Environment Designer · Digital Twin Creator · AI Creative Artist · Virtual Production · Cinematic Environment Design</div>
+    <div class="hero-meta">
+      <span class="hero-meta-item">📍 Delhi, India</span>
+      <span class="sep">—</span>
+      <span class="hero-meta-item"><a href="https://www.linkedin.com/in/amandeep-singh-o9/" target="_blank">LinkedIn Profile ↗</a></span>
+    </div>
+    <div class="status-tags">
+      <span class="stag green">● Available for Hire</span>
+      <span class="stag line">Open to Relocation</span>
+      <span class="stag line">Remote Friendly</span>
+    </div>
+    <div class="port-btns">
+      <a href="https://www.artstation.com/amandeepsingh753" class="port-btn gold" target="_blank"><span>ArtStation ↗</span></a>
+      <a href="https://www.youtube.com/@amancrafts-h5s" class="port-btn" target="_blank"><span>YouTube ↗</span></a>
+      <a href="https://amandeep-singh1313.itch.io/" class="port-btn" target="_blank"><span>itch.io ↗</span></a>
+      <a href="https://www.linkedin.com/in/amandeep-singh-o9/" class="port-btn" target="_blank"><span>LinkedIn ↗</span></a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="drawing-label">Document No. AS-2025-01 · Architectural Visualization Resume</div>
+    <div class="panel-box reveal" data-label="Profile">
+      <div class="profile-text">Creative Unreal Engine and Architectural Visualization artist specializing in cinematic environments, immersive 3D experiences, digital twins, and real-time rendering. Skilled in photorealistic environments, cinematic scenes, and large-scale interactive worlds using UE5, Maya, and 3ds Max. Experienced in Datasmith workflows, optimization pipelines, and AI-assisted creative workflows.</div>
+    </div>
+    <div class="panel-box reveal" data-label="Proficiency Index">
+      <div class="sb-row"><div class="sb-label">Unreal Engine 5</div><div class="sb-track"><div class="sb-fill" data-pct="92"></div></div><div class="sb-pct">92</div></div>
+      <div class="sb-row"><div class="sb-label">Architectural Viz</div><div class="sb-track"><div class="sb-fill" data-pct="95"></div></div><div class="sb-pct">95</div></div>
+      <div class="sb-row"><div class="sb-label">Lighting & Comp.</div><div class="sb-track"><div class="sb-fill" data-pct="90"></div></div><div class="sb-pct">90</div></div>
+      <div class="sb-row"><div class="sb-label">Real-time Render</div><div class="sb-track"><div class="sb-fill" data-pct="88"></div></div><div class="sb-pct">88</div></div>
+      <div class="sb-row"><div class="sb-label">AI Workflows</div><div class="sb-track"><div class="sb-fill" data-pct="85"></div></div><div class="sb-pct">85</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section-wrap reveal">
+  <div class="section-num">01 / Experience</div>
+  <div class="section-heading">Work <em>History</em><div class="section-rule"></div></div>
+  <div class="exp-item">
+    <div class="exp-left">
+      <div class="exp-period">2024 &nbsp;·&nbsp; 6 Months</div>
+      <br>
+      <span class="exp-badge">Internship</span>
+    </div>
+    <div class="exp-right">
+      <div class="exp-company">Studio FOV</div>
+      <div class="exp-role">3D ArchViz Artist Intern</div>
+      <div class="exp-desc">Contributed to photorealistic architectural visualization projects within a professional studio environment using Unreal Engine 5. Worked alongside senior artists to build and optimize 3D environments, develop PBR materials, and deliver client-ready interior and exterior walkthrough renders. Gained hands-on production pipeline experience from brief to final deliverable.</div>
+      <div class="exp-tags">
+        <span class="exp-tag">Unreal Engine 5</span>
+        <span class="exp-tag">Architectural Visualization</span>
+        <span class="exp-tag">3D Environment Building</span>
+        <span class="exp-tag">PBR Materials</span>
+        <span class="exp-tag">Lumen GI</span>
+        <span class="exp-tag">Lighting</span>
+        <span class="exp-tag">Client Deliverables</span>
+        <span class="exp-tag">Production Pipeline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section-wrap reveal">
+  <div class="section-num">02 / Skills</div>
+  <div class="section-heading">Core <em>Competencies</em><div class="section-rule"></div></div>
+  <div class="skills-container">
+    <div>
+      <div class="skills-col-title">ArchViz & UE5 Skills</div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterSkills('all',this)">All</button>
+        <button class="filter-btn" onclick="filterSkills('ue5',this)">UE5</button>
+        <button class="filter-btn" onclick="filterSkills('rendering',this)">Render</button>
+        <button class="filter-btn" onclick="filterSkills('design',this)">Design</button>
+      </div>
+      <div class="skills-cloud" id="skills-wrap">
+        <span class="skill-pill core" data-cat="ue5">Unreal Engine 5</span>
+        <span class="skill-pill core" data-cat="design">Architectural Visualization</span>
+        <span class="skill-pill" data-cat="design">Environment Design</span>
+        <span class="skill-pill" data-cat="design">Level Design</span>
+        <span class="skill-pill core" data-cat="rendering">Real-time Rendering</span>
+        <span class="skill-pill" data-cat="design">Cinematic Environments</span>
+        <span class="skill-pill core" data-cat="rendering">Lighting & Composition</span>
+        <span class="skill-pill" data-cat="ue5">Datasmith Workflow</span>
+        <span class="skill-pill" data-cat="design">Interactive Walkthroughs</span>
+        <span class="skill-pill core" data-cat="design">Digital Twin Creation</span>
+        <span class="skill-pill" data-cat="ue5">Scene Optimization</span>
+        <span class="skill-pill" data-cat="ue5">Android Optimization</span>
+        <span class="skill-pill" data-cat="rendering">Material Creation</span>
+        <span class="skill-pill" data-cat="design">Environment Storytelling</span>
+        <span class="skill-pill" data-cat="ue5">Blueprints</span>
+        <span class="skill-pill" data-cat="ue5">Basic C++</span>
+        <span class="skill-pill" data-cat="rendering">Scene Composition</span>
+        <span class="skill-pill" data-cat="rendering">Photorealistic Rendering</span>
+        <span class="skill-pill core" data-cat="design">Virtual Production</span>
+        <span class="skill-pill" data-cat="ue5">Performance Optimization</span>
+        <span class="skill-pill" data-cat="design">Modular Environment Design</span>
+      </div>
+    </div>
+    <div>
+      <div class="sw-col-title">Software</div>
+      <div class="sw-list">
+        <div class="sw-badge">Unreal Engine 5</div>
+        <div class="sw-badge">Autodesk Maya</div>
+        <div class="sw-badge">Autodesk 3ds Max</div>
+        <div class="sw-badge">Adobe Photoshop</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI -->
+<section class="section-wrap reveal">
+  <div class="section-num">03 / AI</div>
+  <div class="section-heading">AI <em>Integration</em><div class="section-rule"></div></div>
+  <div class="ai-grid">
+    <div class="ai-card">
+      <div class="ai-card-label">Capabilities</div>
+      <ul class="ai-list">
+        <li>AI Prompt Engineering</li>
+        <li>AI Image & Video Generation</li>
+        <li>Cinematic Workflow Integration</li>
+        <li>AI-Assisted Storytelling</li>
+        <li>Concept Art Generation</li>
+        <li>AI Moodboard Creation</li>
+        <li>Generative AI Pipeline Integration</li>
+        <li>AI Creative Direction</li>
+        <li>AI-Assisted Environment Design</li>
+        <li>AI Productivity Enhancement</li>
+      </ul>
+    </div>
+    <div class="ai-card">
+      <div class="ai-card-label">Tools Mastery</div>
+      <div class="tool-pills">
+        <span class="tool-pill hl">ChatGPT</span><span class="tool-pill hl">Claude</span>
+        <span class="tool-pill hl">Gemini</span><span class="tool-pill hl">Midjourney</span>
+        <span class="tool-pill">Stable Diffusion</span><span class="tool-pill">Sora</span>
+        <span class="tool-pill">Seedance 2</span><span class="tool-pill">Kling AI</span>
+        <span class="tool-pill">ComfyUI</span><span class="tool-pill">Runway ML</span>
+        <span class="tool-pill">Leonardo AI</span><span class="tool-pill">Pika Labs</span>
+        <span class="tool-pill">Luma AI</span><span class="tool-pill">Adobe Firefly</span>
+        <span class="tool-pill">Flux AI</span><span class="tool-pill">ElevenLabs</span>
+        <span class="tool-pill">DALL·E</span><span class="tool-pill">Ideogram AI</span>
+        <span class="tool-pill">Perplexity AI</span><span class="tool-pill">Notion AI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section-wrap reveal">
+  <div class="section-num">04 / Projects</div>
+  <div class="section-heading">Selected <em>Works</em><div class="section-rule"></div></div>
+  <div class="projects-grid">
+    <div class="proj-card" onclick="toggleProject(this)">
+      <div class="proj-num">P — 001</div>
+      <div class="proj-title">Photorealistic ArchViz Walkthroughs</div>
+      <div class="proj-tech">UE5 · Lumen · Nanite</div>
+      <div class="proj-desc">Cinematic architectural walkthrough visualizations with Lumen GI and Nanite geometry for maximum fidelity.</div>
+      <div class="proj-expand"><div class="proj-expand-inner">Delivered multiple full-scale interior and exterior architectural visualization walkthroughs. Utilized UE5's Lumen global illumination for photorealistic light bouncing, Nanite for ultra-high polygon geometry, and cinematic camera rigs for smooth client presentations. Covered residential, commercial, and concept architectural spaces.</div></div>
+      <div class="proj-hint">+ Expand</div>
+    </div>
+    <div class="proj-card" onclick="toggleProject(this)">
+      <div class="proj-num">P — 002</div>
+      <div class="proj-title">Cinematic Sci-Fi Environments</div>
+      <div class="proj-tech">UE5 · Maya · Datasmith</div>
+      <div class="proj-desc">AAA-quality sci-fi environments with dynamic lighting, volumetric fog, and atmospheric storytelling.</div>
+      <div class="proj-expand"><div class="proj-expand-inner">Designed and built immersive sci-fi environment art. Hand-crafted modular assets in Maya imported into UE5 with Datasmith. Implemented volumetric atmospheric effects, dynamic time-of-day lighting, and cinematic sequencer camera animations.</div></div>
+      <div class="proj-hint">+ Expand</div>
+    </div>
+    <div class="proj-card" onclick="toggleProject(this)">
+      <div class="proj-num">P — 003</div>
+      <div class="proj-title">Android-Optimized Environments</div>
+      <div class="proj-tech">UE5 · Mobile · LOD</div>
+      <div class="proj-desc">Performance-optimized real-time environments for Android mobile deployment, 60fps target.</div>
+      <div class="proj-expand"><div class="proj-expand-inner">Full optimization pipeline for mobile-ready UE5 environments. Multi-level LOD systems, texture atlas compression, aggressive draw-call reduction, and mobile-friendly material instances. Achieved real-time 60fps on mid-range Android devices.</div></div>
+      <div class="proj-hint">+ Expand</div>
+    </div>
+    <div class="proj-card" onclick="toggleProject(this)">
+      <div class="proj-num">P — 004</div>
+      <div class="proj-title">Digital Twin Experiences</div>
+      <div class="proj-tech">UE5 · Datasmith · Blueprints</div>
+      <div class="proj-desc">Interactive 3D digital twin environments from 3ds Max with Blueprint-driven interactivity and real-time navigation.</div>
+      <div class="proj-expand"><div class="proj-expand-inner">Accurate digital twin representations using Datasmith for seamless 3ds Max to UE5 pipeline. Blueprint-driven interactive elements including material switching, lighting controls, and guided tour pathways. Delivered as standalone interactive applications for stakeholder presentations.</div></div>
+      <div class="proj-hint">+ Expand</div>
+    </div>
+  </div>
+</section>
+
+<!-- STRENGTHS -->
+<section class="section-wrap reveal">
+  <div class="section-num">05 / Strengths</div>
+  <div class="section-heading">Key <em>Strengths</em><div class="section-rule"></div></div>
+  <div class="strengths-grid">
+    <div class="strength-card"><div class="str-num">01</div><div class="str-title">Full Environment Creation</div><div class="str-desc">Build complete photorealistic environments from concept through to final cinematic render output.</div></div>
+    <div class="strength-card"><div class="str-num">02</div><div class="str-title">Cinematic Composition</div><div class="str-desc">Expert camera work, depth, storytelling and visual hierarchy for AAA-quality environmental narratives.</div></div>
+    <div class="strength-card"><div class="str-num">03</div><div class="str-title">Advanced UE5 Optimization</div><div class="str-desc">Deep knowledge of Lumen, Nanite, LODs, draw-call reduction, and mobile deployment pipelines.</div></div>
+    <div class="strength-card"><div class="str-num">04</div><div class="str-title">AI-Integrated Workflows</div><div class="str-desc">Leverage 20+ AI tools for concept art, moodboards, reference generation, and environment ideation.</div></div>
+    <div class="strength-card"><div class="str-num">05</div><div class="str-title">Technical + Artistic Balance</div><div class="str-desc">Bridge the gap between complex technical pipelines and high-end artistic creative vision.</div></div>
+    <div class="strength-card"><div class="str-num">06</div><div class="str-title">Fast Learner</div><div class="str-desc">Rapidly masters new tools, pipelines, and industry-standard workflows with strong problem-solving ability.</div></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="section-wrap reveal">
+  <div class="section-num">06 / Portfolio</div>
+  <div class="section-heading">Portfolio <em>& Links</em><div class="section-rule"></div></div>
+  <div class="showcase-grid">
+    <a href="https://www.artstation.com/amandeepsingh753" class="showcase-card" target="_blank">
+      <div class="showcase-platform">ArtStation</div>
+      <div class="showcase-name">3D Art Portfolio</div>
+      <div class="showcase-desc">Photorealistic ArchViz renders, cinematic environment art, and UE5 scene breakdowns.</div>
+      <div class="showcase-url">artstation.com/amandeepsingh753</div>
+    </a>
+    <a href="https://www.youtube.com/@amancrafts-h5s" class="showcase-card" target="_blank">
+      <div class="showcase-platform">YouTube</div>
+      <div class="showcase-name">AmanCrafts Channel</div>
+      <div class="showcase-desc">Cinematic walkthroughs, environment timelapses, UE5 tutorials, and demo reels.</div>
+      <div class="showcase-url">youtube.com/@amancrafts-h5s</div>
+    </a>
+    <a href="https://amandeep-singh1313.itch.io/" class="showcase-card" target="_blank">
+      <div class="showcase-platform">itch.io</div>
+      <div class="showcase-name">Interactive Projects</div>
+      <div class="showcase-desc">Playable UE5 environments, interactive ArchViz experiences, and real-time demos.</div>
+      <div class="showcase-url">amandeep-singh1313.itch.io</div>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-left">Amandeep Singh &nbsp;·&nbsp; UE5 ArchViz Artist &nbsp;·&nbsp; Delhi, India &nbsp;·&nbsp; 2025</div>
+  <div class="footer-right">
+    <a href="https://www.artstation.com/amandeepsingh753" target="_blank">ArtStation</a>
+    <a href="https://www.youtube.com/@amancrafts-h5s" target="_blank">YouTube</a>
+    <a href="https://amandeep-singh1313.itch.io/" target="_blank">itch.io</a>
+    <a href="https://www.linkedin.com/in/amandeep-singh-o9/" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+(function animRing(){
+  rx += (mx-rx)*0.12; ry += (my-ry)*0.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button,.proj-card,.skill-pill,.exp-tag,.sw-badge,.showcase-card,.strength-card,.tool-pill').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    ring.style.width='48px'; ring.style.height='48px'; ring.style.opacity='0.8';
+    cur.style.transform='translate(-50%,-50%) scale(1.5)';
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.style.width='32px'; ring.style.height='32px'; ring.style.opacity='0.5';
+    cur.style.transform='translate(-50%,-50%) scale(1)';
+  });
+});
+
+// REVEAL
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.07});
+document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+
+// SKILL BARS
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.sb-fill').forEach(b => {
+        setTimeout(() => { b.style.width=b.dataset.pct+'%'; }, 300);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.4});
+const sm = document.querySelector('[data-label="Proficiency Index"]');
+if(sm) barObs.observe(sm);
+
+// FILTER
+function filterSkills(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.skill-pill').forEach(p => {
+    if(cat==='all'||p.dataset.cat===cat){p.style.opacity='1';p.style.transform='scale(1)';}
+    else{p.style.opacity='0.12';p.style.transform='scale(0.95)';}
+  });
+}
+
+// PROJECT EXPAND
+function toggleProject(card){
+  const exp=card.querySelector('.proj-expand');
+  const hint=card.querySelector('.proj-hint');
+  const isOpen=exp.classList.contains('open');
+  document.querySelectorAll('.proj-expand.open').forEach(e => {
+    e.classList.remove('open');
+    e.closest('.proj-card').querySelector('.proj-hint').textContent='+ Expand';
+  });
+  if(!isOpen){exp.classList.add('open');hint.textContent='− Collapse';}
+}
+
+// NAV HIGHLIGHT
+window.addEventListener('scroll', () => {
+  const secs=document.querySelectorAll('section[id]');
+  let active='';
+  secs.forEach(s => { if(window.scrollY >= s.offsetTop-80) active=s.id; });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href')==='#'+active);
+  });
+});
+</script>
+</body>
+</html>
