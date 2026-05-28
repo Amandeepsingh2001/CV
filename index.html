@@ -39,8 +39,8 @@ body{
   font-family:'DM Sans',sans-serif;font-weight:300;
   min-height:100vh;overflow-x:hidden;cursor:none;transition:background 0.35s ease,color 0.35s ease;
 }
-#cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:transform 0.1s}
-#cursor-ring{position:fixed;width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.15s ease;mix-blend-mode:multiply;opacity:0.5}
+#cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,background 0.3s}
+#cursor-ring{position:fixed;width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.15s ease,border-color 0.3s;opacity:0.7}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(180,165,140,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(180,165,140,0.07) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
 
 /* SIDE RULE */
@@ -209,18 +209,115 @@ footer{border-top:1px solid var(--rule);padding:28px 48px;display:flex;align-ite
 ::-webkit-scrollbar-track{background:var(--cream)}
 ::-webkit-scrollbar-thumb{background:var(--linen)}
 
-@media(max-width:900px){
-  .hero{grid-template-columns:1fr}
-  .hero-right{border-top:1px solid var(--rule)}
+
+/* ===================== MOBILE ===================== */
+/* Hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;z-index:200}
+.hamburger span{display:block;width:22px;height:1px;background:var(--ink);transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* Mobile drawer */
+.mobile-nav{display:none;position:fixed;top:56px;left:0;right:0;bottom:0;background:var(--cream);z-index:99;flex-direction:column;padding:40px 28px;gap:0;border-top:1px solid var(--rule);overflow-y:auto}
+body.dark .mobile-nav{background:var(--cream)}
+body.dark .hamburger span{background:var(--ink)}
+.mobile-nav.open{display:flex}
+.mobile-nav a{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-mid);text-decoration:none;padding:18px 0;border-bottom:1px solid var(--rule);transition:color 0.2s}
+.mobile-nav a:hover{color:var(--gold)}
+
+@media(max-width:768px){
+  #cursor,#cursor-ring{display:none}
+  body{cursor:auto}
+  *{cursor:auto!important}
   .side-rule{display:none}
   main{margin-left:0}
-  nav{left:0;padding:0 20px}
-  .section-wrap{padding:48px 24px}
-  .skills-container,.ai-grid,.projects-grid,.strengths-grid,.showcase-grid{grid-template-columns:1fr}
-  .hero-left{padding:60px 24px 40px}
-  h1{font-size:52px}
-  .exp-item{grid-template-columns:1fr;gap:10px}
-  footer{padding:24px}
+
+  /* NAV */
+  nav{left:0;padding:0 16px;height:52px}
+  .nav-links{display:none}
+  .nav-role{display:none}
+  .hamburger{display:flex}
+  #theme-btn{font-size:8px;padding:5px 10px;letter-spacing:1px}
+
+  /* HERO */
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-left{padding:52px 20px 36px;border-right:none;border-bottom:1px solid var(--rule)}
+  .corner-mark{display:none}
+  h1{font-size:48px;margin-bottom:20px}
+  .hero-label{margin-bottom:20px;font-size:8px}
+  .hero-title{font-size:9px;letter-spacing:1.5px;margin-bottom:6px}
+  .hero-subtitle{font-size:13px;margin-bottom:24px}
+  .hero-meta{gap:12px;margin-bottom:20px;flex-wrap:wrap}
+  .hero-meta-item{font-size:9px}
+  .status-tags{margin-bottom:24px;gap:6px}
+  .stag{font-size:8px;padding:5px 10px}
+  .port-btns{gap:8px}
+  .port-btn{font-size:9px;padding:10px 16px}
+  .hero-right{padding:28px 20px;border-top:1px solid var(--rule)}
+  .drawing-label{font-size:7px}
+  .panel-box{padding:16px}
+  .profile-text{font-size:13px}
+  .sb-label{font-size:8px;width:100px}
+  .sb-pct{font-size:8px}
+
+  /* SECTIONS */
+  .section-wrap{padding:40px 20px}
+  .section-heading{font-size:30px;margin-bottom:28px}
+  .section-num{font-size:8px}
+
+  /* EXPERIENCE */
+  .exp-item{grid-template-columns:1fr;gap:6px;padding:24px 0}
+  .exp-company{font-size:22px}
+  .exp-role{font-size:9px;letter-spacing:1.5px;margin-bottom:10px}
+  .exp-desc{font-size:13px;margin-bottom:14px}
+  .exp-period{font-size:9px}
+  .exp-badge{font-size:7px;padding:3px 8px}
+  .exp-tags{gap:5px}
+  .exp-tag{font-size:7px;padding:3px 8px}
+
+  /* SKILLS */
+  .skills-container{grid-template-columns:1fr;gap:32px}
+  .filter-bar{flex-wrap:wrap}
+  .filter-btn{font-size:8px;padding:7px 4px;flex:none;min-width:25%}
+  .skill-pill{font-size:8px;padding:5px 10px}
+  .sw-badge{font-size:9px;padding:12px 16px}
+
+  /* AI */
+  .ai-grid{grid-template-columns:1fr}
+  .ai-card{padding:20px 16px}
+  .ai-list li{font-size:12px}
+  .tool-pill{font-size:7px;padding:4px 8px}
+
+  /* PROJECTS */
+  .projects-grid{grid-template-columns:1fr}
+  .proj-card{padding:20px 16px}
+  .proj-title{font-size:18px}
+  .proj-desc{font-size:12px}
+  .proj-num{font-size:8px}
+
+  /* STRENGTHS */
+  .strengths-grid{grid-template-columns:1fr 1fr;gap:1px}
+  .strength-card{padding:20px 14px}
+  .str-title{font-size:15px}
+  .str-desc{font-size:11px}
+  .str-num{font-size:8px}
+
+  /* PORTFOLIO */
+  .showcase-grid{grid-template-columns:1fr}
+  .showcase-card{padding:20px 16px}
+  .showcase-name{font-size:18px}
+  .showcase-desc{font-size:12px}
+
+  /* FOOTER */
+  footer{padding:20px;flex-direction:column;align-items:flex-start;gap:12px}
+  .footer-right{flex-wrap:wrap;gap:14px}
+}
+
+@media(max-width:400px){
+  h1{font-size:40px}
+  .strengths-grid{grid-template-columns:1fr}
+  .section-heading{font-size:26px}
 }
 </style>
 </head>
@@ -255,8 +352,22 @@ footer{border-top:1px solid var(--rule);padding:28px 48px;display:flex;align-ite
     <li><a href="#projects">Projects</a></li>
     <li><a href="#portfolio">Portfolio</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:16px"><button id="theme-btn" onclick="toggleTheme()"><span id="theme-icon">&#9680;</span> <span id="theme-label">Dark</span></button><div class="nav-dot" title="Available for Hire"></div></div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <button id="theme-btn" onclick="toggleTheme()"><span id="theme-icon">&#9680;</span> <span id="theme-label">Dark</span></button>
+    <div class="nav-dot" title="Available for Hire"></div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#experience" onclick="closeMenu()">Experience</a>
+  <a href="#skills" onclick="closeMenu()">Skills</a>
+  <a href="#projects" onclick="closeMenu()">Projects</a>
+  <a href="#portfolio" onclick="closeMenu()">Portfolio</a>
+</div>
 
 <main>
 
@@ -585,14 +696,32 @@ window.addEventListener('scroll', () => {
     a.classList.toggle('active', a.getAttribute('href')==='#'+active);
   });
 });
+// HAMBURGER MENU
+function toggleMenu(){
+  const hb=document.getElementById('hamburger');
+  const mn=document.getElementById('mobile-nav');
+  hb.classList.toggle('open');
+  mn.classList.toggle('open');
+  document.body.style.overflow=mn.classList.contains('open')?'hidden':'';
+}
+function closeMenu(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.body.style.overflow='';
+}
+
 // THEME TOGGLE
 function toggleTheme(){
+  const curEl=document.getElementById("cursor");
+  const ringEl=document.getElementById("cursor-ring");
   const dark = document.body.classList.toggle("dark");
   document.getElementById("theme-icon").textContent = dark ? "○" : "◐";
   document.getElementById("theme-label").textContent = dark ? "Light" : "Dark";
   localStorage.setItem("theme", dark ? "dark" : "light");
+  const c = dark ? "#C4963A" : "#8C6D2F";
+  curEl.style.background=c; ringEl.style.borderColor=c;
 }
-if(localStorage.getItem("theme")==="dark"){document.body.classList.add("dark");document.getElementById("theme-icon").textContent="○";document.getElementById("theme-label").textContent="Light";}
+if(localStorage.getItem("theme")==="dark"){document.body.classList.add("dark");document.getElementById("theme-icon").textContent="○";document.getElementById("theme-label").textContent="Light";document.getElementById("cursor").style.background="#C4963A";document.getElementById("cursor-ring").style.borderColor="#C4963A";}
 </script>
 </body>
 </html>
